@@ -24,9 +24,7 @@ public class luckyseven {
             }
             counter ++;
         }
-
         System.out.println("You are broke after " + counter + " rolls.");
         System.out.println("You should have quit after " + highest_round + " rolls when you had " + highest_bet + ".");
-
     }
 }
