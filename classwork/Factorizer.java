@@ -9,17 +9,17 @@ public class Factorizer {
         int total = 0;
         System.out.println("The factors of 6 are:");
         for(int i = 1; i <= number; i++){
-            if(number % i == 0) {
+            if(number % i == 0 && i != number) {
                 System.out.print(i + " ");
+                total += i;
                 count ++;
-                if(i != number) total += i;
             }
         }
         System.out.println("\n" + number + " has " + count + " factors.");
         if(total == number) System.out.println(number + " is a perfect number.");
         else System.out.println(number + " is not a perfect number.");
 
-        if((count == 2) & (number > 1)) System.out.println(number + " is a prime number.");
+        if((count == 1) & (number > 1)) System.out.println(number + " is a prime number.");
         else System.out.println(number + " is not a prime number.");
     }
 }
