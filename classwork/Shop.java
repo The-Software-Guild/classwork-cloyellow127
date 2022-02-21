@@ -15,7 +15,7 @@ public class Shop {
     public static class Customer{
         private long id;
         private String name;
-        private ArrayList<CustomTypeProduct_Count> shoppingCart;
+        private ArrayList<CustomTypeProductCount> shoppingCart;
         private double totalPrice;
         private String checkOutDateTime;
 
@@ -26,7 +26,7 @@ public class Shop {
         Customer(String name){
             id = customerId++;
             this.name = name;
-            shoppingCart = new ArrayList<CustomTypeProduct_Count>();
+            shoppingCart = new ArrayList<CustomTypeProductCount>();
             totalPrice = 0;
         }
 
@@ -42,17 +42,17 @@ public class Shop {
             this.name = name;
         }
 
-        public ArrayList<CustomTypeProduct_Count> getShoppingCart() {
+        public ArrayList<CustomTypeProductCount> getShoppingCart() {
             return shoppingCart;
         }
 
-        public int positionInCart(CustomTypeProduct_Count csProduct){
+        public int positionInCart(CustomTypeProductCount csProduct){
             Collections.sort(shoppingCart);
             return Collections.binarySearch(shoppingCart, csProduct);
         }
 
         public void addToShoppingCart(Product product, int count) {
-            CustomTypeProduct_Count csProduct = new CustomTypeProduct_Count(product, count);
+            CustomTypeProductCount csProduct = new CustomTypeProductCount(product, count);
             int position = positionInCart(csProduct);
 
             if(position >= 0) shoppingCart.get(position).setCount(shoppingCart.get(position).getCount() + count);
@@ -61,7 +61,7 @@ public class Shop {
             totalPrice += csProduct.getTotal();
         }
 
-        public void removeFromShoppingCart(CustomTypeProduct_Count csProduct, int count) {
+        public void removeFromShoppingCart(CustomTypeProductCount csProduct, int count) {
             int position = positionInCart(csProduct);
 
             if(position >= 0){
@@ -123,12 +123,12 @@ public class Shop {
         }
     }
 
-    public static class CustomTypeProduct_Count implements Comparable<CustomTypeProduct_Count>{
+    public static class CustomTypeProductCount implements Comparable<CustomTypeProductCount>{
         private Product product;
         private int count;
         private double total;
 
-        CustomTypeProduct_Count(Product product, int count){
+        CustomTypeProductCount(Product product, int count){
             this.product = product;
             this.count = count;
             setTotal();
@@ -162,7 +162,7 @@ public class Shop {
         }
 
         @Override
-        public int compareTo(CustomTypeProduct_Count csProductCount) {
+        public int compareTo(CustomTypeProductCount csProductCount) {
             if(this.product.getId() == csProductCount.getProduct().getId()) return 0;
             else if(this.product.getId() > csProductCount.getProduct().getId()) return 1;
             else return -1;
@@ -477,7 +477,7 @@ public class Shop {
                 Collections.sort(customer.getShoppingCart());
 
                 for(int i = 0; i < customer.getShoppingCart().size(); i++){
-                    CustomTypeProduct_Count csProduct = customer.getShoppingCart().get(i);
+                    CustomTypeProductCount csProduct = customer.getShoppingCart().get(i);
 
                     System.out.println((i + 1) + ". " + csProduct.getProduct().getName() + "($" + csProduct.getProduct().getPrice() + ") -- Count: " + csProduct.getCount() + 
                     " -- Total: $" + formatter.format(csProduct.getProduct().getPrice() * csProduct.getCount()));
@@ -498,7 +498,7 @@ public class Shop {
                     int productNumber = scan.nextInt();
 
                     if(productNumber >= 1 && productNumber <= currentCustomers.getShoppingCart().size()){
-                        CustomTypeProduct_Count csProduct = currentCustomers.getShoppingCart().get(productNumber - 1);
+                        CustomTypeProductCount csProduct = currentCustomers.getShoppingCart().get(productNumber - 1);
 
                         System.out.println("\nHow many " + csProduct.getProduct().getName() + "(s) would you like to remove? Please enter 1 - " + csProduct.getCount() + " (Or anything else to cancel)");
 
