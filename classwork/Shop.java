@@ -66,7 +66,7 @@ public class Shop {
 
             if(position >= 0){
                 shoppingCart.get(position).setCount(shoppingCart.get(position).getCount() - count);
-                totalPrice -= csProduct.getTotal();
+                totalPrice -= csProduct.getProduct().getPrice() * count;
             }
         }
 
