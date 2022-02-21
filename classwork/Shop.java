@@ -15,7 +15,7 @@ public class Shop {
     public static class Customer{
         private long id;
         private String name;
-        private ArrayList<CustomTypeProductCount> shoppingCart;
+        private ArrayList<Product> shoppingCart;
         private double totalPrice;
         private String checkOutDateTime;
 
@@ -26,7 +26,7 @@ public class Shop {
         Customer(String name){
             id = customerId++;
             this.name = name;
-            shoppingCart = new ArrayList<CustomTypeProductCount>();
+            shoppingCart = new ArrayList<Product>();
             totalPrice = 0;
         }
 
@@ -42,31 +42,33 @@ public class Shop {
             this.name = name;
         }
 
-        public ArrayList<CustomTypeProductCount> getShoppingCart() {
+        public ArrayList<Product> getShoppingCart() {
             return shoppingCart;
         }
 
-        public int positionInCart(CustomTypeProductCount csProduct){
+        public int positionInCart(Product product){
             Collections.sort(shoppingCart);
-            return Collections.binarySearch(shoppingCart, csProduct);
+            return Collections.binarySearch(shoppingCart, product);
         }
 
         public void addToShoppingCart(Product product, int count) {
-            CustomTypeProductCount csProduct = new CustomTypeProductCount(product, count);
-            int position = positionInCart(csProduct);
+            int position = positionInCart(product);
 
             if(position >= 0) shoppingCart.get(position).setCount(shoppingCart.get(position).getCount() + count);
-            else this.shoppingCart.add(csProduct);
+            else {
+                product.setCount(count);
+                this.shoppingCart.add(product);
+            }
 
-            totalPrice += csProduct.getTotal();
+            totalPrice += product.getTotalPrice();
         }
 
-        public void removeFromShoppingCart(CustomTypeProductCount csProduct, int count) {
-            int position = positionInCart(csProduct);
+        public void removeFromShoppingCart(Product product, int count) {
+            int position = positionInCart(product);
 
             if(position >= 0){
                 shoppingCart.get(position).setCount(shoppingCart.get(position).getCount() - count);
-                totalPrice -= csProduct.getProduct().getPrice() * count;
+                totalPrice -= product.getPrice() * count;
             }
         }
 
@@ -89,11 +91,15 @@ public class Shop {
         private long id;
         private String name;
         private double price;
+        private int count;
+        private double totalPrice;
 
         Product(String name, double price){
             id = productId++;
             this.name = name;
             this.price = price;
+            count = 0;
+            totalPrice = 0;
         }
 
         public long getId() {
@@ -116,56 +122,27 @@ public class Shop {
             this.price = price;
         }
 
-        @Override
-        public int compareTo(Product product) {
-            if(this.getId() == product.getId()) return 0;
-            else if(this.getId() > product.getId()) return 1;
-            else return -1;
-        }
-    }
-
-    public static class CustomTypeProductCount implements Comparable<CustomTypeProductCount>{
-        private Product product;
-        private int count;
-        private double total;
-
-        CustomTypeProductCount(Product product, int count){
-            this.product = product;
-            this.count = count;
-            setTotal();
-        }
-
-        public Product getProduct() {
-            return product;
-        }
-
         public int getCount() {
             return count;
         }
 
         public void setCount(int count) {
             this.count = count;
-            setTotal();
+            setTotalPrice();
         }
 
-        public double getTotal() {
-            return total;
+        public double getTotalPrice() {
+            return totalPrice;
         }
 
-        public void setTotal() {
-            total = product.getPrice() * count;
-        }
-
-        public int compareToProduct(Product product) {
-            if(this.product.getId() == product.getId()) return 0;
-            else if(this.product.getId() > product.getId()) return 1;
-            else return -1;
+        public void setTotalPrice() {
+            totalPrice = price * count;
         }
 
         @Override
-        public int compareTo(CustomTypeProductCount csProductCount) {
-            if(this.product.getId() == csProductCount.getProduct().getId()) return 0;
-            else if(this.product.getId() > csProductCount.getProduct().getId()) return 1;
+        public int compareTo(Product product) {
+            if(this.getId() == product.getId()) return 0;
+            else if(this.getId() > product.getId()) return 1;
             else return -1;
         }
     }
@@ -478,10 +455,10 @@ public class Shop {
                 Collections.sort(customer.getShoppingCart());
 
                 for(int i = 0; i < customer.getShoppingCart().size(); i++){
-                    CustomTypeProductCount csProduct = customer.getShoppingCart().get(i);
+                    Product product = customer.getShoppingCart().get(i);
 
-                    System.out.println((i + 1) + ". " + csProduct.getProduct().getName() + "($" + csProduct.getProduct().getPrice() + ") -- Count: " + csProduct.getCount() + 
-                    " -- Total: $" + formatter.format(csProduct.getProduct().getPrice() * csProduct.getCount()));
+                    System.out.println((i + 1) + ". " + product.getName() + "($" + product.getPrice() + ") -- Count: " + product.getCount() + 
+                    " -- Total: $" + formatter.format(product.getPrice() * product.getCount()));
                 }
 
                 System.out.println("\nGrand Total: $" + formatter.format(customer.getTotalPrice()));
@@ -499,17 +476,17 @@ public class Shop {
                     int productNumber = scan.nextInt();
 
                     if(productNumber >= 1 && productNumber <= currentCustomers.getShoppingCart().size()){
-                        CustomTypeProductCount csProduct = currentCustomers.getShoppingCart().get(productNumber - 1);
+                        Product product = currentCustomers.getShoppingCart().get(productNumber - 1);
 
-                        System.out.println("\nHow many " + csProduct.getProduct().getName() + "(s) would you like to remove? Please enter 1 - " + csProduct.getCount() + " (Or anything else to cancel)");
+                        System.out.println("\nHow many " + product.getName() + "(s) would you like to remove? Please enter 1 - " + product.getCount() + " (Or anything else to cancel)");
 
                         if(checkNextInt(scan, "Cancelled")){
                             int times = scan.nextInt();
 
-                            if(times > 0 && times <= csProduct.getCount()){
-                                currentCustomers.removeFromShoppingCart(csProduct, times);
+                            if(times > 0 && times <= product.getCount()){
+                                currentCustomers.removeFromShoppingCart(product, times);
                                 
-                                System.out.println("\nRemoved " + times + " " + csProduct.getProduct().getName() + " from your cart :)\n-------------------------");
+                                System.out.println("\nRemoved " + times + " " + product.getName() + " from your cart :)\n-------------------------");
                             }
                             else errorMessage("Cancelled");
                         }
