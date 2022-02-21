@@ -544,9 +544,9 @@ public class Shop {
     public static void main(String args[]){
         // create app and add default products
         App app = new App();
-        app.addProductsToStock("Macbook Pro", 1699.99);
-        app.addProductsToStock("Lenovo thinkpad", 1099);
-        app.addProductsToStock("Playstation 5", 799.99);
+        app.addProductsToStock("MacBook Pro", 1699.99);
+        app.addProductsToStock("Lenovo ThinkPad", 1099);
+        app.addProductsToStock("PlayStation 5", 799.99);
         app.addProductsToStock("Jellyfish", 69.69);
 
         // run app
