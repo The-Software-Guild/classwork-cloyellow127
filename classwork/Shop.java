@@ -548,7 +548,6 @@ public class Shop {
         app.addProductsToStock("Lenovo ThinkPad", 1099);
         app.addProductsToStock("PlayStation 5", 799.99);
         app.addProductsToStock("Jellyfish", 69.69);
-
         // run app
         Scanner scan = new Scanner(System.in);
         app.welcome(scan);
