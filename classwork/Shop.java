@@ -77,6 +77,7 @@ public class Shop {
         public String getCheckOutDateTime() {
             return checkOutDateTime;
         }
+        
         public void setCheckOutDateTime() {
             LocalDateTime localDateTime = LocalDateTime.now();
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
