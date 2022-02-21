@@ -8,7 +8,7 @@ public class Shop {
     // global id
     static long customerId = 1;
     static long productId = 1;
-    
+
     // decimal formatter
     static NumberFormat formatter = new DecimalFormat("#0.00");
 
@@ -275,7 +275,7 @@ public class Shop {
             System.out.println("\nThanks for shopping! Have a nice day, goodbye :)");
         }
 
-        public void Welcome(Scanner scan){
+        public void welcome(Scanner scan){
             while(true){
                 System.out.println("\n-------------------------\nWelcome to XYZ shop!\n" +  
                 "Type command to continue:\n \"ok\": Start shopping \n \"exit\": Exit application\n-------------------------");
@@ -291,7 +291,7 @@ public class Shop {
                         this.CustomerOptions(scan);
                         break;
                     case "manager":
-                        ManagerMode(scan);
+                        managerMode(scan);
                         break;
                     case "exit":
                         System.exit(0);
@@ -318,7 +318,7 @@ public class Shop {
             }
         }
 
-        public void ManagerMode(Scanner scan){
+        public void managerMode(Scanner scan){
             System.out.println("\n****** Manager mode ******\n(Current can only view customer records and see total revenue.)");
             boolean run = true;
             while(run){
@@ -551,6 +551,6 @@ public class Shop {
 
         // run app
         Scanner scan = new Scanner(System.in);
-        app.Welcome(scan);
+        app.welcome(scan);
     }
 }
