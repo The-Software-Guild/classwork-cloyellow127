@@ -319,7 +319,7 @@ public class Shop {
         }
 
         public void managerMode(Scanner scan){
-            System.out.println("\n****** Manager mode ******\n(Current can only view customer records and see total revenue.)");
+            System.out.println("\n****** Manager mode ******\n");
             boolean run = true;
             while(run){
                 System.out.println("\nPress number then enter:");
