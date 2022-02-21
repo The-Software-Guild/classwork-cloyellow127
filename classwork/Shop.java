@@ -207,7 +207,7 @@ public class Shop {
                 scan.nextLine();
 
                 System.out.println("\n****** Please confirm following product information: \nProduct name: " + 
-                name + "\nProduct price: " + formatter.format(price) + "\n\n****** Type \"add\" to confirm adding this item to stock (or anything else to cancel)******");
+                name + "\nProduct price: $" + formatter.format(price) + "\n\n****** Type \"add\" to confirm adding this item to stock (or anything else to cancel)******");
 
                 String confirm = scan.nextLine();
 
