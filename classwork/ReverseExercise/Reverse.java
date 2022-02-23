@@ -7,6 +7,10 @@ public class Reverse {
         setReversedNumber();
     }
 
+    private Reverse(){
+        
+    }
+
     public int getNumber() {
         return number;
     }
